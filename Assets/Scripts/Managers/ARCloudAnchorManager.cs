@@ -52,9 +52,10 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
     public void HostAnchor()
     {
         ARDebugManager.Instance.LogInfo($"HostAnchor executing");
-
+        ARDebugManager.Instance.LogError($"Unable to host cloud anchor {GetCameraPose()}");
         FeatureMapQuality quality =
             arAnchorManager.EstimateFeatureMapQualityForHosting(GetCameraPose());
+
 
         cloudAnchor = arAnchorManager.HostCloudAnchor(pendingHostAnchor, 1);
     
@@ -87,7 +88,7 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
     private void CheckHostingProgress()
     {
         CloudAnchorState cloudAnchorState = cloudAnchor.cloudAnchorState;
-        if(cloudAnchorState == CloudAnchorState.Success)
+        if (cloudAnchorState == CloudAnchorState.Success)
         {
             ARDebugManager.Instance.LogError("Anchor successfully hosted");
             
