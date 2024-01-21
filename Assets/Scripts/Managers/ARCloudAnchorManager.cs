@@ -3,6 +3,10 @@ using Google.XR.ARCoreExtensions;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.ARFoundation;
+using Unity.Services.CloudSave;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using System.Collections.Generic;
 
 public class UnityEventResolver : UnityEvent<Transform>{}
 
@@ -30,11 +34,34 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
     private UnityEventResolver resolver = null;
 
-    private void Awake() 
+    private async void Awake() 
     {
         resolver = new UnityEventResolver();   
         resolver.AddListener((t) => ARPlacementManager.Instance.ReCreatePlacement(t));
+        await UnityServices.InitializeAsync();
+        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+
     }
+
+    public async void SaveData(string anchorId)
+    {
+        var playerData = new Dictionary<string, object>{
+          {"firstKeyName", "a text value"},
+          {"secondKeyName", anchorId}
+        };
+        await CloudSaveService.Instance.Data.ForceSaveAsync(playerData);
+        Debug.Log($"Saved data {string.Join(',', playerData)}");
+        ARDebugManager.Instance.LogInfo($"Saved data {string.Join(',', playerData)}");
+    }
+
+    public async void LoadData()
+    {
+
+        var resultdata = await CloudSaveService.Instance.Data.LoadAllAsync();
+        Debug.Log($"Saved data {string.Join(',', resultdata.Values)}");
+        ARDebugManager.Instance.LogInfo($"Saved data {string.Join(',', resultdata)}");
+    }
+
 
     private Pose GetCameraPose()
     {
@@ -49,14 +76,15 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
         pendingHostAnchor = arAnchor;
     }
 
-    public void HostAnchor()
+    public async void HostAnchor()
     {
+
         ARDebugManager.Instance.LogInfo($"HostAnchor executing");
-        ARDebugManager.Instance.LogError($"Unable to host cloud anchor {GetCameraPose()}");
+        ARDebugManager.Instance.LogInfo($"cloud anchor {GetCameraPose()}");
         FeatureMapQuality quality =
             arAnchorManager.EstimateFeatureMapQualityForHosting(GetCameraPose());
 
-
+        
         cloudAnchor = arAnchorManager.HostCloudAnchor(pendingHostAnchor, 1);
     
         if(cloudAnchor == null)
@@ -65,6 +93,7 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
         }
         else
         {
+            ARDebugManager.Instance.LogError($"open the anchor {cloudAnchor}");
             anchorUpdateInProgress = true;
         }
     }
@@ -75,12 +104,16 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
         cloudAnchor = arAnchorManager.ResolveCloudAnchorId(anchorToResolve);
 
-        if(cloudAnchor == null)
+        SaveData(anchorToResolve);
+
+        if (cloudAnchor == null)
         {
             ARDebugManager.Instance.LogError($"Failed to resolve cloud achor id {cloudAnchor.cloudAnchorId}");
         }
         else
         {
+            ARDebugManager.Instance.LogError($"Success cloudAnchor {cloudAnchor.gameObject}");
+            cloudAnchor.gameObject.SetActive(true);
             anchorResolveInProgress = true;
         }
     }
@@ -146,6 +179,8 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
             {
                 ARDebugManager.Instance.LogInfo($"Resolving AnchorId: {anchorToResolve}");
                 CheckResolveProgress();
+
+
             }
         }
         else
