@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DilmerGames.Core.Singletons;
+using Google.XR.ARCoreExtensions;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -64,9 +65,12 @@ public class ARPlacementManager : Singleton<ARPlacementManager>
         if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
         {
             var hitPose = hits[0].pose;
+            ARDebugManager.Instance.LogInfo($"Hit Pose {hitPose}");
             placedGameObject = Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
+            ARDebugManager.Instance.LogInfo($"HostAnchor executing");
             var anchor = arAnchorManager.AddAnchor(new Pose(hitPose.position, hitPose.rotation));
             placedGameObject.transform.parent = anchor.transform;
+            ARDebugManager.Instance.LogInfo($"anchor Pose {anchor.transform.position}");
 
             // this won't host the anchor just add a reference to be later host it
             ARCloudAnchorManager.Instance.QueueAnchor(anchor);
@@ -77,5 +81,12 @@ public class ARPlacementManager : Singleton<ARPlacementManager>
     {
         placedGameObject = Instantiate(placedPrefab, transform.position, transform.rotation);
         placedGameObject.transform.parent = transform;
+    }
+
+    public void ResetAnchor(ARCloudAnchor anchorCloudObject)
+    {
+        Pose pose = anchorCloudObject.pose;
+        ARDebugManager.Instance.LogInfo($"Get Back Position {pose.position}");
+        Instantiate(placedPrefab, pose.position + new Vector3(0, 10, 0), pose.rotation);
     }
 }
