@@ -4,6 +4,7 @@ using Google.XR.ARCoreExtensions;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
+
 [RequireComponent(typeof(ARRaycastManager))]
 public class ARPlacementManager : Singleton<ARPlacementManager>
 { 
@@ -87,6 +88,6 @@ public class ARPlacementManager : Singleton<ARPlacementManager>
     {
         Pose pose = anchorCloudObject.pose;
         ARDebugManager.Instance.LogInfo($"Get Back Position {pose.position}");
-        Instantiate(placedPrefab, pose.position + new Vector3(0, 10, 0), pose.rotation);
+        Instantiate(placedPrefab, pose.position + new Vector3(0, 10, 50), pose.rotation);
     }
 }

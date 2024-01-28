@@ -108,7 +108,7 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
     private IEnumerator CheckHostCloudAnchorPromise(HostCloudAnchorPromise promise)
     {
-        anchorUpdateInProgress = true;
+       
         yield return promise;
         if (promise.State == PromiseState.Cancelled) yield break;
         hostCloudAnchorResult = promise.Result;
@@ -116,6 +116,7 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
         cloudAnchorId = hostCloudAnchorResult.CloudAnchorId;
         ARDebugManager.Instance.LogInfo($"Cloud Anchor ID new {cloudAnchorId}");
+        anchorUpdateInProgress = true;
     }
 
 
@@ -152,13 +153,13 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
     private IEnumerator ResolvePromise(ResolveCloudAnchorPromise promise)
     {
-        anchorResolveInProgress = true;
         yield return promise;
         if (promise.State == PromiseState.Cancelled) yield break;
         resolveCloudAnchorResult = promise.Result;
         /// Use the result of your promise here.
 
         var resultAnchor = resolveCloudAnchorResult.Anchor;
+        anchorResolveInProgress = true;
         ARDebugManager.Instance.LogInfo($"resultAnchor new {resultAnchor.transform.position}");
     }
 
@@ -238,7 +239,7 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
             resolver.Invoke(resolveCloudAnchorResult.Anchor.transform);
 
-            ARPlacementManager.Instance.RemovePlacements();
+            //ARPlacementManager.Instance.RemovePlacements();
             ARPlacementManager.Instance.ResetAnchor(resolveCloudAnchorResult.Anchor);
 
             anchorResolveInProgress = false;
