@@ -23,6 +23,10 @@ public class ARDrawManager : Singleton<ARDrawManager>
 
     private Dictionary<int, ARLine> Lines = new Dictionary<int, ARLine>();
 
+    private List<Vector3> savePositions = new List<Vector3>();
+
+    private List<int> fingerIdList = new List<int>();
+
     private bool CanDraw { get; set; }
 
     void Update ()
@@ -43,22 +47,39 @@ public class ARDrawManager : Singleton<ARDrawManager>
     {
         CanDraw = isAllow;
     }
-    
+
+
+    public void TestDraw()
+    {
+        //foreach (KeyValuePair<ARAnchor, Vector3> item in saveInfo) {
+        //    ARLine line = new ARLine(lineSettings);
+        //    line.AddNewLineRenderer(transform, item.Key, item.Value);
+        //    ARDebugManager.Instance.LogInfo($"Draw");
+        //}
+        ARAnchor anchor = anchorManager.AddAnchor(new Pose(savePositions[0], Quaternion.identity));
+        ARLine line = new ARLine(lineSettings);
+        line.AddNewLineRenderer(transform, anchor, savePositions[0]);
+        for (int i = 0; i < savePositions.Count; i++)
+        {
+            line.AddPoint(savePositions[i]);
+
+        }   
+
+    }
+
 
     void DrawOnTouch()
     {
         if(!CanDraw) return;
 
         int tapCount = Input.touchCount > 1 && lineSettings.allowMultiTouch ? Input.touchCount : 1;
-
-        for(int i = 0; i < tapCount; i++)
+        for (int i = 0; i < tapCount; i++)
         {
+
             Touch touch = Input.GetTouch(i);
             Vector3 touchPosition = arCamera.ScreenToWorldPoint(new Vector3(Input.GetTouch(i).position.x, Input.GetTouch(i).position.y, lineSettings.distanceFromCamera));
-            
-            ARDebugManager.Instance.LogInfo($"{touch.fingerId}");
-            
-            if(touch.phase == TouchPhase.Began)
+            savePositions.Add(touchPosition);
+            if (touch.phase == TouchPhase.Began)
             {
                 OnDraw?.Invoke();
                 ARAnchor anchor = anchorManager.AddAnchor(new Pose(touchPosition, Quaternion.identity));
@@ -71,9 +92,13 @@ public class ARDrawManager : Singleton<ARDrawManager>
                     ARDebugManager.Instance.LogInfo($"Anchor created & total of {anchors.Count} anchor(s)");
                 }
 
-                ARLine line = new ARLine(lineSettings);
-                Lines.Add(touch.fingerId, line);
-                line.AddNewLineRenderer(transform, anchor, touchPosition);
+                fingerIdList.Add(touch.fingerId);
+
+                //ARLine line = new ARLine(lineSettings);
+                //Lines.Add(touch.fingerId, line);
+                //line.AddNewLineRenderer(transform, anchor, touchPosition);
+                //ARDebugManager.Instance.LogInfo($"Draw");
+
             }
             else if(touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
             {
@@ -84,6 +109,10 @@ public class ARDrawManager : Singleton<ARDrawManager>
                 Lines.Remove(touch.fingerId);
             }
         }
+        //queue to the ARAnchor List after the drawing is done
+        ARCloudAnchorManager.Instance.QueueAnchorList(anchors);
+
+
     }
 
     void DrawOnMouse()
