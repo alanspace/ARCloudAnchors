@@ -66,7 +66,7 @@ public class ARPlacementManager : Singleton<ARPlacementManager>
         if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
         {
             var hitPose = hits[0].pose;
-            ARDebugManager.Instance.LogInfo($"Hit Pose {hitPose}");
+            ARDebugManager.Instance.LogInfo($"Hit Pose placeManager {hitPose}");
             placedGameObject = Instantiate(placedPrefab, hitPose.position, hitPose.rotation);
             ARDebugManager.Instance.LogInfo($"HostAnchor executing");
             var anchor = arAnchorManager.AddAnchor(new Pose(hitPose.position, hitPose.rotation));

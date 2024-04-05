@@ -38,7 +38,7 @@ public class ARDrawManager : Singleton<ARDrawManager>
         CanDraw = true;
         #if !UNITY_EDITOR
         DrawOnTouch();
-#else
+        #else
         DrawOnMouse();
         #endif
 	}
