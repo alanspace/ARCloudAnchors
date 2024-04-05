@@ -343,7 +343,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1405077189}
         m_TargetAssemblyTypeName: ARCloudAnchorManager, Assembly-CSharp
-        m_MethodName: LoadData
+        m_MethodName: SaveARDrawAnchor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
