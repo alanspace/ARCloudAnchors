@@ -65,6 +65,7 @@ public class ARCloudAnchorExperienceManager : MonoBehaviour
         {
             AllowCloudAnchorDelay = true;
         }
+
     }
 
     private void Activate()
