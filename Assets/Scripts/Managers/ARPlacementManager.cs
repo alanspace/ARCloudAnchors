@@ -63,7 +63,7 @@ public class ARPlacementManager : Singleton<ARPlacementManager>
         if(placedGameObject != null)
             return;
 
-        if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+        if (arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
         {
             var hitPose = hits[0].pose;
             ARDebugManager.Instance.LogInfo($"Hit Pose placeManager {hitPose}");
