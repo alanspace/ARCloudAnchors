@@ -11,6 +11,7 @@ using static UnityEngine.Networking.UnityWebRequest;
 using System.Threading.Tasks;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARSubsystems;
 
 
 public class UnityEventResolver : UnityEvent<Transform>{}
@@ -60,6 +61,8 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
     private bool isListHosted = true;
 
     public bool isNewSceneResolved = false;
+
+    private GameObject placedGameObject = null;
 
     private async void Awake() 
     {
@@ -309,17 +312,15 @@ public class ARCloudAnchorManager : Singleton<ARCloudAnchorManager>
 
         if (cloudAnchorState == CloudAnchorState.Success)
         {
-            ARDebugManager.Instance.LogInfo($"New Scene CloudAnchorId: {resolveCloudAnchorResult.Anchor.transform.position} resolved");
+            ARDebugManager.Instance.LogInfo($"New Scene CloudAnchorId: {resolveCloudAnchorResult.Anchor.pose.position} resolved");
             anchorResolveInProgress = false;
             //resolver.Invoke(resolveCloudAnchorResult.Anchor.transform);
-            ARDebugManager.Instance.LogInfo($"New Scene before reset anchor");
 
             //ARPlacementManager.Instance.ResetAnchor(resolveCloudAnchorResult.Anchor);
-            Instantiate(placedPrefab, resolveCloudAnchorResult.Anchor.pose.position, resolveCloudAnchorResult.Anchor.pose.rotation);
-            Instantiate(placedPrefab, new Vector3(0,0,0), resolveCloudAnchorResult.Anchor.transform.rotation);
-            
+            //placedGameObject = Instantiate(placedPrefab, resolveCloudAnchorResult.Anchor.pose.position, resolveCloudAnchorResult.Anchor.pose.rotation);
+            //placedGameObject.transform.parent = resolveCloudAnchorResult.Anchor.transform;
 
-
+            ARPlacementManager.Instance.getBackAnchor(resolveCloudAnchorResult.Anchor);
             ARDebugManager.Instance.LogInfo($"New Scene Total resolved");
         }
         else if (cloudAnchorState != CloudAnchorState.TaskInProgress)
