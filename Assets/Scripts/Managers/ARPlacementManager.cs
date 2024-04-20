@@ -3,6 +3,7 @@ using DilmerGames.Core.Singletons;
 using Google.XR.ARCoreExtensions;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 
 [RequireComponent(typeof(ARRaycastManager))]
@@ -89,5 +90,15 @@ public class ARPlacementManager : Singleton<ARPlacementManager>
         Pose pose = anchorCloudObject.pose;
         ARDebugManager.Instance.LogInfo($"Get Back Position {pose.position}");
         Instantiate(placedPrefab, pose.position + new Vector3(0, 10, 50), pose.rotation);
+    }
+
+
+    public void getBackAnchor(ARCloudAnchor anchorCloudObject)
+    {
+        ARDebugManager.Instance.LogInfo($"Get Back Position {anchorCloudObject.transform.position}");
+
+        placedGameObject = Instantiate(placedPrefab, anchorCloudObject.transform.position, anchorCloudObject.transform.rotation);
+        placedGameObject.transform.parent = anchorCloudObject.transform;
+        ARDebugManager.Instance.LogInfo($"Finished");
     }
 }

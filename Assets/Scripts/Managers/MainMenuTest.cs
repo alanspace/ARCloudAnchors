@@ -11,13 +11,14 @@ public class MainMenuTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(placedPrefab, new Vector3(0, 0, 0), new Quaternion());
+        Instantiate(placedPrefab, new Vector3(1, 1, 1), new Quaternion());
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Instantiate(placedPrefab, new Vector3(0, 0, 0), new Quaternion());
 
     }
 
