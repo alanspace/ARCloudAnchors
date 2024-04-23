@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "452288443372",
+    "firebase_url": "https://metvibee-ar-drawing-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "metvibee-ar-drawing",
+    "storage_bucket": "metvibee-ar-drawing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452288443372:android:d7e584bbdeebcce8db06c9",
+        "android_client_info": {
+          "package_name": "com.metvibee.betafirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452288443372-96fi9t3vc7tbp6v7d2pmb5kc759imb07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metvibee.betafirebase",
+            "certificate_hash": "b5e7e55dc83bbc0443e5fff2cbcb34b2fa0d774f"
+          }
+        },
+        {
+          "client_id": "452288443372-sb86h4o40jqq9pui75cbtl3bh2n9oujr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzGMNQIG9n_Yq0Nmf26kY1bbPWFBx8CS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452288443372-sb86h4o40jqq9pui75cbtl3bh2n9oujr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "452288443372-b4j3ckcu0fpbhur3p2nr8d9cnlgq5dcg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.metvibee.betafirebase"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452288443372:android:befd9d721ce8d2c0db06c9",
+        "android_client_info": {
+          "package_name": "com.metvibee.betaversion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452288443372-rslpeeek4md3ug9tttjb63r0tq65d2am.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metvibee.betaversion",
+            "certificate_hash": "b5e7e55dc83bbc0443e5fff2cbcb34b2fa0d774f"
+          }
+        },
+        {
+          "client_id": "452288443372-sb86h4o40jqq9pui75cbtl3bh2n9oujr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzGMNQIG9n_Yq0Nmf26kY1bbPWFBx8CS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452288443372-sb86h4o40jqq9pui75cbtl3bh2n9oujr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "452288443372-b4j3ckcu0fpbhur3p2nr8d9cnlgq5dcg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.metvibee.betafirebase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
