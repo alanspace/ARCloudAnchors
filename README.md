@@ -17,3 +17,5 @@ https://developers.google.com/ar/develop/unity-arf/quickstart-ios
 
 # Special Thanks to:
 [Hadron Studio](https://assetstore.unity.com/publishers/35258) for their amazing 3D character and animations !
+
+More Information will be added
